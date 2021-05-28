@@ -1,0 +1,63 @@
+t = readtable("Data_18032020.xlsx");
+mm = t.x____________;
+age = string(mm);
+disp(age);
+birth_numdate=datenum(age,'DD-mm-YYYY');
+vec_myage = datevec(now-birth_numdate);
+vec_myage(:,6) = [];   
+vec_myage(:,5) = [];
+vec_myage(:,4) = [];
+vec_myage(:,3) = [];
+vec_myage(:,2) = [];
+disp(vec_myage);
+t.age = vec_myage;
+
+K = t.x_______________________ ./ t.x__________________;
+  
+znach = zeros(length(t.id1),1);
+t.K = K;
+
+for b = 1 : length(t.id1)
+        if ((K(b) > 0.5) && (K(b) <= 1))
+            znach(b) = 1;
+        end
+        if ((K(b) > 0.4) && (K(b) <= 0.5))
+            znach(b) = 0.8;
+        end
+        if ((K(b)>0.3) && (K(b)<=0.4))
+            znach(b) = 0.6;
+        end
+        if ((K(b)>0.2) && (K(b)<=0.3))
+            znach(b) = 0.4;
+        end
+        if ((K(b)>0.1) && (K(b)<=0.2))
+            znach(b) = 0.2;
+        end
+        if ((K(b)>0) && (K(b)<=0.1))
+            znach(b) = 0.1;
+        end
+        
+end
+disp(znach);
+t.znach = double(znach);
+
+id11 = zeros(length(t.id1),1);
+for i = 1 : length(t.id1)
+    if (strlength(string(t.id1(i))) == 11)
+        id11(i) = 1;
+    else 
+        id11(i) = 0;
+    end
+end
+  t.id11 = id11;
+
+id22 = zeros(length(t.id2),1);
+for j = 1 : length(t.id2)
+    if (strlength(string(t.id2(j))) == 11)
+        id22(j) = 1;
+    else 
+        id22(j) = 0;
+    end
+end
+t.id22 = id22;
+writetable(t, "OutFile.xlsx");
